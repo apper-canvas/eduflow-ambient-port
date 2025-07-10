@@ -1,8 +1,8 @@
-import React from "react";
-import { motion } from "framer-motion";
-import ApperIcon from "@/components/ApperIcon";
-import { Button } from "@/atoms/Button";
-import { Card } from "@/atoms/Card";
+import React from 'react'
+import { motion } from 'framer-motion'
+import ApperIcon from '@/components/ApperIcon'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
 
 const AboutPage = () => {
   const teamMembers = [
