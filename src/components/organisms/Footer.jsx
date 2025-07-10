@@ -31,12 +31,32 @@ const Footer = ({ className, ...props }) => {
     ],
   };
 
-  const socialLinks = [
-    { name: "Twitter", icon: "Twitter", href: "#" },
-    { name: "Facebook", icon: "Facebook", href: "#" },
-    { name: "Instagram", icon: "Instagram", href: "#" },
-    { name: "LinkedIn", icon: "Linkedin", href: "#" },
-    { name: "YouTube", icon: "Youtube", href: "#" },
+const socialLinks = [
+    { name: "Twitter", icon: "Twitter", href: "https://twitter.com/eduflow" },
+    { name: "Facebook", icon: "Facebook", href: "https://facebook.com/eduflow" },
+    { name: "Instagram", icon: "Instagram", href: "https://instagram.com/eduflow" },
+    { name: "LinkedIn", icon: "Linkedin", href: "https://linkedin.com/company/eduflow" },
+    { name: "YouTube", icon: "Youtube", href: "https://youtube.com/eduflow" },
+  ];
+const [selectedLanguage, setSelectedLanguage] = React.useState("English");
+  const [selectedCurrency, setSelectedCurrency] = React.useState("USD");
+  const [showLanguageDropdown, setShowLanguageDropdown] = React.useState(false);
+  const [showCurrencyDropdown, setShowCurrencyDropdown] = React.useState(false);
+
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "es", name: "Español" },
+    { code: "fr", name: "Français" },
+    { code: "de", name: "Deutsch" },
+    { code: "zh", name: "中文" },
+  ];
+
+  const currencies = [
+    { code: "USD", symbol: "$", name: "US Dollar" },
+    { code: "EUR", symbol: "€", name: "Euro" },
+    { code: "GBP", symbol: "£", name: "British Pound" },
+    { code: "JPY", symbol: "¥", name: "Japanese Yen" },
+    { code: "CAD", symbol: "C$", name: "Canadian Dollar" },
   ];
 
   return (
@@ -57,10 +77,12 @@ const Footer = ({ className, ...props }) => {
               Empowering learners worldwide with quality education and expert instructors.
             </p>
             <div className="flex space-x-4">
-              {socialLinks.map((social) => (
+{socialLinks.map((social) => (
                 <a
                   key={social.name}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-400 hover:text-primary-600 transition-colors"
                   aria-label={social.name}
                 >
@@ -92,18 +114,65 @@ const Footer = ({ className, ...props }) => {
           ))}
         </div>
 
-        <div className="mt-8 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
+<div className="mt-8 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-600 text-sm">
             © 2024 EduFlow. All rights reserved.
           </div>
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <ApperIcon name="Globe" size={16} />
-              <span>English</span>
+            {/* Language Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                className="flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 transition-colors"
+              >
+                <ApperIcon name="Globe" size={16} />
+                <span>{selectedLanguage}</span>
+                <ApperIcon name="ChevronDown" size={12} />
+              </button>
+              {showLanguageDropdown && (
+                <div className="absolute bottom-full mb-2 right-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[120px] z-10">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setSelectedLanguage(lang.name);
+                        setShowLanguageDropdown(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      {lang.name}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <ApperIcon name="DollarSign" size={16} />
-              <span>USD</span>
+
+            {/* Currency Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setShowCurrencyDropdown(!showCurrencyDropdown)}
+                className="flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 transition-colors"
+              >
+                <ApperIcon name="DollarSign" size={16} />
+                <span>{selectedCurrency}</span>
+                <ApperIcon name="ChevronDown" size={12} />
+              </button>
+              {showCurrencyDropdown && (
+                <div className="absolute bottom-full mb-2 right-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[140px] z-10">
+                  {currencies.map((currency) => (
+                    <button
+                      key={currency.code}
+                      onClick={() => {
+                        setSelectedCurrency(currency.code);
+                        setShowCurrencyDropdown(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      {currency.symbol} {currency.name}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
