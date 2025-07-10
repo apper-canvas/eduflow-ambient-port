@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
-import { Card } from "@/atoms/Card";
-import { Input } from "@/atoms/Input";
-
+import { Card } from "@/components/atoms/Card";
+import { Input } from "@/components/atoms/Input";
 const CategoriesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
