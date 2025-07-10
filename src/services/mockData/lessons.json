@@ -1,0 +1,321 @@
+[
+  {
+    "Id": 1,
+    "courseId": 1,
+    "title": "Introduction to JavaScript",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/video1.mp4",
+      "poster": "https://example.com/poster1.jpg"
+    },
+    "duration": 15,
+    "order": 1,
+    "description": "Welcome to JavaScript! In this lesson, we'll cover what JavaScript is and why it's essential for web development."
+  },
+  {
+    "Id": 2,
+    "courseId": 1,
+    "title": "Variables and Data Types",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/video2.mp4",
+      "poster": "https://example.com/poster2.jpg"
+    },
+    "duration": 20,
+    "order": 2,
+    "description": "Learn about JavaScript variables, data types, and how to work with different kinds of data."
+  },
+  {
+    "Id": 3,
+    "courseId": 1,
+    "title": "Functions and Scope",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/video3.mp4",
+      "poster": "https://example.com/poster3.jpg"
+    },
+    "duration": 25,
+    "order": 3,
+    "description": "Understand how to create and use functions, and learn about variable scope in JavaScript."
+  },
+  {
+    "Id": 4,
+    "courseId": 1,
+    "title": "JavaScript Fundamentals Quiz",
+    "type": "quiz",
+    "content": {
+      "timeLimit": 15,
+      "passingScore": 70,
+      "questions": [
+        {
+          "question": "What is the correct way to declare a variable in JavaScript?",
+          "options": ["var myVar = 5;", "variable myVar = 5;", "declare myVar = 5;", "myVar := 5;"],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which of these is a JavaScript data type?",
+          "options": ["string", "number", "boolean", "all of the above"],
+          "correctAnswer": 3
+        },
+        {
+          "question": "How do you create a function in JavaScript?",
+          "options": ["function myFunction() {}", "create myFunction() {}", "def myFunction() {}", "func myFunction() {}"],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    "duration": 15,
+    "order": 4,
+    "description": "Test your knowledge of JavaScript fundamentals with this quiz."
+  },
+  {
+    "Id": 5,
+    "courseId": 1,
+    "title": "DOM Manipulation",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/video4.mp4",
+      "poster": "https://example.com/poster4.jpg"
+    },
+    "duration": 30,
+    "order": 5,
+    "description": "Learn how to manipulate HTML elements using JavaScript and the Document Object Model."
+  },
+  {
+    "Id": 6,
+    "courseId": 1,
+    "title": "JavaScript Best Practices",
+    "type": "text",
+    "content": {
+      "html": "<h2>JavaScript Best Practices</h2><p>Writing clean, maintainable JavaScript code is crucial for long-term success. Here are some key best practices:</p><h3>1. Use Descriptive Variable Names</h3><p>Choose variable names that clearly describe what the variable contains or represents.</p><h3>2. Keep Functions Small and Focused</h3><p>Each function should do one thing well. This makes your code easier to test and debug.</p><h3>3. Use Comments Wisely</h3><p>Write comments that explain why you're doing something, not what you're doing.</p><h3>4. Avoid Global Variables</h3><p>Minimize the use of global variables to prevent naming conflicts and make your code more predictable.</p>"
+    },
+    "duration": 10,
+    "order": 6,
+    "description": "Learn essential best practices for writing clean, maintainable JavaScript code."
+  },
+  {
+    "Id": 7,
+    "courseId": 2,
+    "title": "React Introduction",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/react1.mp4",
+      "poster": "https://example.com/react-poster1.jpg"
+    },
+    "duration": 18,
+    "order": 1,
+    "description": "Get started with React and understand the component-based architecture."
+  },
+  {
+    "Id": 8,
+    "courseId": 2,
+    "title": "JSX and Components",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/react2.mp4",
+      "poster": "https://example.com/react-poster2.jpg"
+    },
+    "duration": 22,
+    "order": 2,
+    "description": "Learn about JSX syntax and how to create your first React components."
+  },
+  {
+    "Id": 9,
+    "courseId": 2,
+    "title": "React Hooks",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/react3.mp4",
+      "poster": "https://example.com/react-poster3.jpg"
+    },
+    "duration": 35,
+    "order": 3,
+    "description": "Master React Hooks including useState, useEffect, and custom hooks."
+  },
+  {
+    "Id": 10,
+    "courseId": 2,
+    "title": "React Component Quiz",
+    "type": "quiz",
+    "content": {
+      "timeLimit": 20,
+      "passingScore": 75,
+      "questions": [
+        {
+          "question": "What is JSX?",
+          "options": ["A JavaScript extension", "A syntax extension for JavaScript", "A new programming language", "A CSS framework"],
+          "correctAnswer": 1
+        },
+        {
+          "question": "Which hook is used for state management in functional components?",
+          "options": ["useEffect", "useState", "useContext", "useReducer"],
+          "correctAnswer": 1
+        },
+        {
+          "question": "What does useEffect do?",
+          "options": ["Manages state", "Handles side effects", "Creates components", "Styles components"],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    "duration": 20,
+    "order": 4,
+    "description": "Test your React knowledge with this comprehensive quiz."
+  },
+  {
+    "Id": 11,
+    "courseId": 3,
+    "title": "Design Principles",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/design1.mp4",
+      "poster": "https://example.com/design-poster1.jpg"
+    },
+    "duration": 25,
+    "order": 1,
+    "description": "Learn fundamental design principles that apply to all forms of visual design."
+  },
+  {
+    "Id": 12,
+    "courseId": 3,
+    "title": "Color Theory",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/design2.mp4",
+      "poster": "https://example.com/design-poster2.jpg"
+    },
+    "duration": 20,
+    "order": 2,
+    "description": "Understand how colors work together and how to create effective color schemes."
+  },
+  {
+    "Id": 13,
+    "courseId": 3,
+    "title": "Typography Basics",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/design3.mp4",
+      "poster": "https://example.com/design-poster3.jpg"
+    },
+    "duration": 18,
+    "order": 3,
+    "description": "Learn about typography, font selection, and how to use text effectively in design."
+  },
+  {
+    "Id": 14,
+    "courseId": 4,
+    "title": "Digital Marketing Overview",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/marketing1.mp4",
+      "poster": "https://example.com/marketing-poster1.jpg"
+    },
+    "duration": 15,
+    "order": 1,
+    "description": "Get an overview of digital marketing and its various channels and strategies."
+  },
+  {
+    "Id": 15,
+    "courseId": 4,
+    "title": "SEO Fundamentals",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/marketing2.mp4",
+      "poster": "https://example.com/marketing-poster2.jpg"
+    },
+    "duration": 28,
+    "order": 2,
+    "description": "Learn search engine optimization basics and how to improve website visibility."
+  },
+  {
+    "Id": 16,
+    "courseId": 5,
+    "title": "Camera Basics",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/photo1.mp4",
+      "poster": "https://example.com/photo-poster1.jpg"
+    },
+    "duration": 20,
+    "order": 1,
+    "description": "Learn about camera settings, aperture, shutter speed, and ISO."
+  },
+  {
+    "Id": 17,
+    "courseId": 5,
+    "title": "Composition Techniques",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/photo2.mp4",
+      "poster": "https://example.com/photo-poster2.jpg"
+    },
+    "duration": 22,
+    "order": 2,
+    "description": "Master composition techniques like rule of thirds, leading lines, and framing."
+  },
+  {
+    "Id": 18,
+    "courseId": 6,
+    "title": "Business Strategy Overview",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/business1.mp4",
+      "poster": "https://example.com/business-poster1.jpg"
+    },
+    "duration": 30,
+    "order": 1,
+    "description": "Introduction to business strategy and strategic thinking frameworks."
+  },
+  {
+    "Id": 19,
+    "courseId": 7,
+    "title": "Python Introduction",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/python1.mp4",
+      "poster": "https://example.com/python-poster1.jpg"
+    },
+    "duration": 16,
+    "order": 1,
+    "description": "Get started with Python programming language and its ecosystem."
+  },
+  {
+    "Id": 20,
+    "courseId": 7,
+    "title": "Python Data Types",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/python2.mp4",
+      "poster": "https://example.com/python-poster2.jpg"
+    },
+    "duration": 24,
+    "order": 2,
+    "description": "Learn about Python's built-in data types and how to work with them."
+  },
+  {
+    "Id": 21,
+    "courseId": 8,
+    "title": "Music Production Introduction",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/music1.mp4",
+      "poster": "https://example.com/music-poster1.jpg"
+    },
+    "duration": 19,
+    "order": 1,
+    "description": "Introduction to music production and digital audio workstations."
+  },
+  {
+    "Id": 22,
+    "courseId": 8,
+    "title": "Recording Techniques",
+    "type": "video",
+    "content": {
+      "videoUrl": "https://example.com/music2.mp4",
+      "poster": "https://example.com/music-poster2.jpg"
+    },
+    "duration": 26,
+    "order": 2,
+    "description": "Learn professional recording techniques for various instruments and vocals."
+  }
+]
