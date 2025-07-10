@@ -22,94 +22,104 @@ const videoRef = useRef(null)
   const [volume, setVolume] = useState(1)
   const [showControls, setShowControls] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
-const [videoError, setVideoError] = useState(null)
+  const [videoError, setVideoError] = useState(null)
   const [videoLoading, setVideoLoading] = useState(false)
 
-  useEffect(() => {
-    const video = videoRef.current
-if (!video) return
-
-    const updateTime = () => {
-      setCurrentTime(video.currentTime)
-      if (onProgress) {
-        onProgress(video.currentTime, video.duration)
-      }
-    }
-
-    const updateDuration = () => {
-      setDuration(video.duration)
-    }
-
-    const handleEnded = () => {
-      setIsPlaying(false)
-if (onComplete) {
-        onComplete()
-      }
-    }
-
-const handleError = (e) => {
-      const errorDetails = extractVideoError(e)
-      console.error('Video error:', errorDetails)
-      setVideoError(errorDetails)
-      setIsPlaying(false)
-      setVideoLoading(false)
-    }
-
-    const extractVideoError = (error) => {
-      // Handle video element error events
-      if (error?.target?.error) {
-        const mediaError = error.target.error
-        return {
-          code: mediaError.code,
-          message: getMediaErrorMessage(mediaError.code),
-          type: 'media_error',
-          timestamp: new Date().toISOString()
-        }
-      }
-      
-      // Handle network/fetch errors
-      if (error?.message) {
-        return {
-          message: error.message,
-          type: 'network_error',
-          timestamp: new Date().toISOString()
-        }
-      }
-      
-      // Handle generic errors
+  // Helper function to extract video error details
+  const extractVideoError = (error) => {
+    // Handle video element error events
+    if (error?.target?.error) {
+      const mediaError = error.target.error
       return {
-        message: 'An unknown video error occurred',
-        type: 'unknown_error',
+        code: mediaError.code,
+        message: getMediaErrorMessage(mediaError.code),
+        type: 'media_error',
         timestamp: new Date().toISOString()
       }
     }
-
-    const getMediaErrorMessage = (code) => {
-      switch (code) {
-        case 1: return 'Video loading was aborted'
-        case 2: return 'Network error occurred while loading video'
-        case 3: return 'Video format is not supported or corrupted'
-        case 4: return 'Video source is not available'
-        default: return 'Unknown video error occurred'
+    
+    // Handle network/fetch errors
+    if (error?.message) {
+      return {
+        message: error.message,
+        type: 'network_error',
+        timestamp: new Date().toISOString()
       }
     }
-
-    const retryVideo = () => {
-      setVideoError(null)
-      setVideoLoading(true)
-      if (videoRef.current) {
-        videoRef.current.load()
-      }
+    
+    // Handle generic errors
+    return {
+      message: 'An unknown video error occurred',
+      type: 'unknown_error',
+      timestamp: new Date().toISOString()
     }
+  }
 
-    const handleLoadStart = () => {
-      setVideoLoading(true)
-      setVideoError(false)
+  // Helper function to get media error message
+  const getMediaErrorMessage = (code) => {
+    switch (code) {
+      case 1: return 'Video loading was aborted'
+      case 2: return 'Network error occurred while loading video'
+      case 3: return 'Video format is not supported or corrupted'
+      case 4: return 'Video source is not available'
+      default: return 'Unknown video error occurred'
     }
+  }
 
-    const handleLoadedData = () => {
-      setVideoLoading(false)
+  // Event handlers - moved outside useEffect to be accessible throughout component
+  const updateTime = () => {
+    const video = videoRef.current
+    if (!video) return
+    
+    setCurrentTime(video.currentTime)
+    setIsPlaying(!video.paused)
+    if (onProgress) {
+      onProgress(video.currentTime, video.duration)
     }
+  }
+
+  const updateDuration = () => {
+    const video = videoRef.current
+    if (!video) return
+    
+    setDuration(video.duration)
+  }
+
+  const handleEnded = () => {
+    setIsPlaying(false)
+    if (onComplete) {
+      onComplete()
+    }
+  }
+
+  const handleError = (e) => {
+    const errorDetails = extractVideoError(e)
+    console.error('Video error:', errorDetails)
+    setVideoError(errorDetails)
+    setIsPlaying(false)
+    setVideoLoading(false)
+  }
+
+  const handleLoadStart = () => {
+    setVideoLoading(true)
+    setVideoError(null)
+  }
+
+  const handleLoadedData = () => {
+    setVideoLoading(false)
+  }
+
+  const retryVideo = () => {
+    setVideoError(null)
+    setVideoLoading(true)
+    if (videoRef.current) {
+      videoRef.current.load()
+    }
+  }
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
 
     video.addEventListener('timeupdate', updateTime)
     video.addEventListener('loadedmetadata', updateDuration)
@@ -134,7 +144,7 @@ const togglePlay = () => {
     if (!video || videoError) return
 
     if (video.paused) {
-video.play().catch(err => {
+      video.play().catch(err => {
         const errorInfo = {
           message: err.message || 'Failed to play video',
           name: err.name || 'PlayError',
@@ -144,8 +154,10 @@ video.play().catch(err => {
         console.error('Play failed:', errorInfo)
         setVideoError(errorInfo)
       })
+      setIsPlaying(true)
     } else {
       video.pause()
+      setIsPlaying(false)
     }
   }
 
@@ -203,17 +215,10 @@ video.play().catch(err => {
     onMouseLeave={() => setShowControls(false)}
     {...props}>
     {/* Video Element */}
-    {!videoError ? <video
+{!videoError ? <video
         ref={videoRef}
         poster={poster}
         className="w-full h-full object-cover"
-        onTimeUpdate={updateTime}
-        onDurationChange={updateDuration}
-        onEnded={handleEnded}
-        onError={handleError}
-        onLoadStart={() => setVideoLoading(true)}
-        onLoadedData={() => setVideoLoading(false)}
-        onCanPlay={() => setVideoLoading(false)}
         preload="metadata">
         {/* Primary source */}
         {src && <source src={src} type="video/mp4" />}
@@ -242,16 +247,9 @@ video.play().catch(err => {
                             </Button>
             <Button
                 variant="outline"
-                size="sm"
-                onClick={() => {
-                    setVideoError(false);
-                    setVideoLoading(true);
-
-                    if (videoRef.current) {
-                        videoRef.current.load();
-                    }
-                }}
-                className="text-white border-white hover:bg-white hover:text-black">Try Again
+size="sm"
+                onClick={retryVideo}
+                className="text-white border-white hover:bg-white hover:text-black ml-2">Try Again
                             </Button>
         </div>
     </div>}
