@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 import { cn } from "@/utils/cn";
 import Button from "@/components/atoms/Button";
 import Badge from "@/components/atoms/Badge";
@@ -9,11 +10,14 @@ import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import ApperIcon from "@/components/ApperIcon";
 import { coursesService } from "@/services/api/coursesService";
+import { certificateService } from "@/services/api/certificateService";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [featuredCourses, setFeaturedCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [certificateLoading, setCertificateLoading] = useState(false);
 
   useEffect(() => {
     loadFeaturedCourses();
@@ -30,7 +34,57 @@ const HomePage = () => {
     } finally {
       setLoading(false);
     }
+};
+
+  const handleDownloadCertificates = async () => {
+    try {
+      setCertificateLoading(true);
+      // Mock user ID - in real app, this would come from auth context
+      const userId = 1;
+      const certificates = await certificateService.getByUserId(userId);
+      
+      if (certificates.length === 0) {
+        toast.info("No certificates available for download yet. Complete some courses to earn certificates!");
+        return;
+      }
+      
+      // In a real app, this would trigger actual downloads
+      // For now, we'll show a success message
+      toast.success(`Found ${certificates.length} certificate(s) ready for download!`);
+      
+      // Navigate to profile page where certificates can be managed
+      navigate("/profile");
+    } catch (err) {
+      toast.error("Failed to load certificates. Please try again.");
+    } finally {
+      setCertificateLoading(false);
+    }
   };
+
+  const quickActions = [
+    {
+      title: "Browse Courses",
+      description: "Explore our extensive course catalog",
+      icon: "BookOpen",
+      action: () => navigate("/courses"),
+      color: "primary"
+    },
+    {
+      title: "Update Profile",
+      description: "Manage your account settings",
+      icon: "User",
+      action: () => navigate("/profile"),
+      color: "secondary"
+    },
+    {
+      title: "Download Certificates",
+      description: "Get your earned certificates",
+      icon: "Download",
+      action: handleDownloadCertificates,
+      color: "accent",
+      loading: certificateLoading
+    }
+  ];
 
   const categories = [
     { name: "Programming", icon: "Code", color: "primary", count: 45 },
@@ -111,8 +165,59 @@ const HomePage = () => {
                   className="border-white text-white hover:bg-white hover:text-primary-600"
                 >
                   Become an Instructor
-                </Button>
+</Button>
               </div>
+              
+              {/* Quick Actions */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-12"
+              >
+                <h3 className="text-lg font-semibold text-white/90 mb-4">Quick Actions</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {quickActions.map((action, index) => (
+                    <motion.button
+                      key={action.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
+                      onClick={action.action}
+                      disabled={action.loading}
+                      className={cn(
+                        "p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20",
+                        "hover:bg-white/20 transition-all duration-200 transform hover:scale-105",
+                        "text-left group disabled:opacity-50 disabled:cursor-not-allowed",
+                        "disabled:hover:scale-100 disabled:hover:bg-white/10"
+                      )}
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className={cn(
+                          "w-10 h-10 rounded-lg flex items-center justify-center",
+                          action.color === "primary" && "bg-primary-500/20 text-primary-200",
+                          action.color === "secondary" && "bg-secondary-500/20 text-secondary-200",
+                          action.color === "accent" && "bg-accent-500/20 text-accent-200"
+                        )}>
+                          {action.loading ? (
+                            <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <ApperIcon name={action.icon} size={20} />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-white group-hover:text-white/90 transition-colors">
+                            {action.title}
+                          </div>
+                          <div className="text-sm text-white/70 group-hover:text-white/60 transition-colors">
+                            {action.description}
+                          </div>
+                        </div>
+                      </div>
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
             </motion.div>
             
             <motion.div
