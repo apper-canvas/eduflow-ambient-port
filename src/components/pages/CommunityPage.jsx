@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import ApperIcon from "@/components/ApperIcon";
-import { Button } from "@/atoms/Button";
-import { Card } from "@/atoms/Card";
-import { Avatar } from "@/atoms/Avatar";
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import ApperIcon from '@/components/ApperIcon'
+import { Button } from "@/components/atoms/Button";
+import { Card } from '@/components/atoms/Card'
+import { Avatar } from '@/components/atoms/Avatar'
 
 const CommunityPage = () => {
   const [activeTab, setActiveTab] = useState("discussions");
