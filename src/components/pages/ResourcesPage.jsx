@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import ApperIcon from "@/components/ApperIcon";
-import { Button } from "@/atoms/Button";
-import { Card } from "@/atoms/Card";
-import { Input } from "@/atoms/Input";
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import ApperIcon from '@/components/ApperIcon'
+import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
+import { Input } from '@/components/atoms/Input'
 
 const ResourcesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
