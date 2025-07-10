@@ -372,10 +372,9 @@ const CourseDetailPage = () => {
                       {course.certificate ? "Yes" : "No"}
                     </span>
                   </div>
-                </div>
+</div>
               </div>
             </motion.div>
-</motion.div>
           </div>
         </div>
       </div>
