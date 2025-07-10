@@ -131,11 +131,22 @@ const LessonPage = () => {
     return currentIndex > 0 ? lessons[currentIndex - 1] : null;
   };
 
-  const renderLessonContent = () => {
+const renderLessonContent = () => {
     if (!lesson) return null;
 
     switch (lesson.type) {
       case "video":
+        // Validate video source before rendering
+        if (!lesson.content?.videoUrl) {
+          return (
+            <div className="bg-white rounded-lg p-8 shadow-soft text-center">
+              <ApperIcon name="AlertCircle" size={48} className="text-red-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Video Not Available</h3>
+              <p className="text-gray-600">The video source for this lesson is not configured.</p>
+            </div>
+          );
+        }
+        
         return (
           <VideoPlayer
             src={lesson.content.videoUrl}

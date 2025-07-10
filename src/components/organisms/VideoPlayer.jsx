@@ -1,73 +1,101 @@
-import React, { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
-import { cn } from "@/utils/cn";
-import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
+import React, { useState, useRef, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { cn } from '@/utils/cn'
+import Button from '@/components/atoms/Button'
+import ApperIcon from '@/components/ApperIcon'
 
 const VideoPlayer = ({ 
   src, 
-  poster,
-  title,
-  onProgress,
-  onComplete,
-  className,
+  poster, 
+  title, 
+  onProgress, 
+  onComplete, 
+  className, 
   ...props 
 }) => {
-  const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showControls, setShowControls] = useState(true);
+const videoRef = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [volume, setVolume] = useState(1)
+  const [showControls, setShowControls] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [videoError, setVideoError] = useState(false)
+  const [videoLoading, setVideoLoading] = useState(false)
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const video = videoRef.current
+if (!video) return
 
     const updateTime = () => {
-      setCurrentTime(video.currentTime);
+      setCurrentTime(video.currentTime)
       if (onProgress) {
-        onProgress(video.currentTime, video.duration);
+        onProgress(video.currentTime, video.duration)
       }
-    };
+    }
 
     const updateDuration = () => {
-      setDuration(video.duration);
-    };
+      setDuration(video.duration)
+    }
 
     const handleEnded = () => {
-      setIsPlaying(false);
-      if (onComplete) {
-        onComplete();
+      setIsPlaying(false)
+if (onComplete) {
+        onComplete()
       }
-    };
+    }
 
-    video.addEventListener("timeupdate", updateTime);
-    video.addEventListener("loadedmetadata", updateDuration);
-    video.addEventListener("ended", handleEnded);
+    const handleError = (e) => {
+      console.error('Video error:', e)
+      setVideoError(true)
+      setIsPlaying(false)
+      setVideoLoading(false)
+    }
+
+    const handleLoadStart = () => {
+      setVideoLoading(true)
+      setVideoError(false)
+    }
+
+    const handleLoadedData = () => {
+      setVideoLoading(false)
+    }
+
+    video.addEventListener('timeupdate', updateTime)
+    video.addEventListener('loadedmetadata', updateDuration)
+    video.addEventListener('ended', handleEnded)
+    video.addEventListener('error', handleError)
+    video.addEventListener('loadstart', handleLoadStart)
+    video.addEventListener('loadeddata', handleLoadedData)
+    video.addEventListener('canplay', handleLoadedData)
 
     return () => {
-      video.removeEventListener("timeupdate", updateTime);
-      video.removeEventListener("loadedmetadata", updateDuration);
-      video.removeEventListener("ended", handleEnded);
-    };
-  }, [onProgress, onComplete]);
-
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (isPlaying) {
-      video.pause();
-    } else {
-      video.play();
+      video.removeEventListener('timeupdate', updateTime)
+      video.removeEventListener('loadedmetadata', updateDuration)
+      video.removeEventListener('ended', handleEnded)
+      video.removeEventListener('error', handleError)
+      video.removeEventListener('loadstart', handleLoadStart)
+      video.removeEventListener('loadeddata', handleLoadedData)
+      video.removeEventListener('canplay', handleLoadedData)
     }
-    setIsPlaying(!isPlaying);
-  };
+  }, [onProgress, onComplete])
+const togglePlay = () => {
+    const video = videoRef.current
+    if (!video || videoError) return
+
+    if (video.paused) {
+      video.play().catch(err => {
+        console.error('Play failed:', err)
+        setVideoError(true)
+      })
+    } else {
+      video.pause()
+    }
+  }
 
   const handleSeek = (e) => {
-    const video = videoRef.current;
+    const video = videoRef.current
+    if (!video || videoError) return
     if (!video) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
@@ -113,7 +141,7 @@ const VideoPlayer = ({
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div
+<div
       className={cn(
         "relative bg-black rounded-lg overflow-hidden group",
         className
@@ -123,18 +151,75 @@ const VideoPlayer = ({
       {...props}
     >
       {/* Video Element */}
-      <video
-        ref={videoRef}
-        src={src}
-        poster={poster}
-        className="w-full h-full object-cover"
-        onClick={togglePlay}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-      />
+      {!videoError ? (
+        <video
+          ref={videoRef}
+          poster={poster}
+          className="w-full h-full object-cover"
+          onClick={togglePlay}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onError={(e) => {
+            console.error('Video error:', e);
+            setVideoError(true);
+            setIsPlaying(false);
+          }}
+          onLoadStart={() => setVideoLoading(true)}
+          onLoadedData={() => setVideoLoading(false)}
+          onCanPlay={() => setVideoLoading(false)}
+          preload="metadata"
+        >
+          {/* Primary source */}
+          {src && <source src={src} type="video/mp4" />}
+          {/* Fallback sources for different formats */}
+          {src && (
+            <>
+              <source src={src.replace('.mp4', '.webm')} type="video/webm" />
+              <source src={src.replace('.mp4', '.ogv')} type="video/ogg" />
+            </>
+          )}
+          {/* Fallback text for browsers that don't support video */}
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        /* Video Error Fallback */
+        <div className="w-full h-full flex items-center justify-center bg-gray-900 text-white">
+          <div className="text-center p-8">
+            <ApperIcon name="AlertCircle" size={48} className="mx-auto mb-4 text-red-400" />
+            <h3 className="text-lg font-semibold mb-2">Video Unavailable</h3>
+            <p className="text-sm text-gray-300 mb-4">
+              This video cannot be played. It may be temporarily unavailable or in an unsupported format.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setVideoError(false);
+                setVideoLoading(true);
+                if (videoRef.current) {
+                  videoRef.current.load();
+                }
+              }}
+              className="text-white border-white hover:bg-white hover:text-black"
+            >
+              Try Again
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Loading Overlay */}
+      {videoLoading && !videoError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="text-center text-white">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
+            <p className="text-sm">Loading video...</p>
+          </div>
+        </div>
+      )}
 
       {/* Play Button Overlay */}
-      {!isPlaying && (
+      {!isPlaying && !videoLoading && !videoError && (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
