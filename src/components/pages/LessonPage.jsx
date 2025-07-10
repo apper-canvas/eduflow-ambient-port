@@ -10,20 +10,23 @@ import LessonItem from "@/components/molecules/LessonItem";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import ApperIcon from "@/components/ApperIcon";
+import CertificateTemplate from "@/components/molecules/CertificateTemplate";
 import { coursesService } from "@/services/api/coursesService";
 import { lessonsService } from "@/services/api/lessonsService";
 import { enrollmentsService } from "@/services/api/enrollmentsService";
-
+import { certificateService } from "@/services/api/certificateService";
 const LessonPage = () => {
   const { courseId, lessonId } = useParams();
   const navigate = useNavigate();
-  const [course, setCourse] = useState(null);
+const [course, setCourse] = useState(null);
   const [lesson, setLesson] = useState(null);
   const [lessons, setLessons] = useState([]);
   const [enrollment, setEnrollment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [certificate, setCertificate] = useState(null);
 
   // Mock current user
   const currentUser = {
@@ -69,7 +72,7 @@ const LessonPage = () => {
     }
   };
 
-  const handleLessonComplete = async () => {
+const handleLessonComplete = async () => {
     if (!enrollment || enrollment.completedLessons.includes(parseInt(lessonId))) {
       return;
     }
@@ -88,6 +91,27 @@ const LessonPage = () => {
       setEnrollment(updatedEnrollment);
       
       toast.success("Lesson completed!");
+      
+      // Check if course is completed (100% progress)
+      if (progress === 100) {
+        // Generate certificate for course completion
+        try {
+          const certificateData = {
+            studentName: currentUser.name,
+            courseTitle: course.title,
+            completionDate: new Date().toISOString(),
+            userId: currentUser.Id,
+            courseId: course.Id
+          };
+          
+          const certificate = await certificateService.create(certificateData);
+          setShowCertificate(true);
+          setCertificate(certificate);
+          toast.success("🎉 Congratulations! You've completed the course and earned a certificate!");
+        } catch (certErr) {
+          toast.error("Failed to generate certificate. Please try again.");
+        }
+      }
       
       // Auto-navigate to next lesson
       const currentIndex = lessons.findIndex(l => l.Id === parseInt(lessonId));
@@ -424,10 +448,56 @@ const renderLessonContent = () => {
                   </Button>
                 )}
               </div>
-            </div>
+</div>
           </div>
         </div>
       </div>
+
+      {/* Certificate Modal */}
+      {showCertificate && certificate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="font-display font-semibold text-2xl text-gray-900">
+                  🎉 Certificate of Completion
+                </h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowCertificate(false)}
+                >
+                  <ApperIcon name="X" size={20} />
+                </Button>
+              </div>
+              
+              <div className="mb-6">
+                <CertificateTemplate
+                  studentName={certificate.studentName}
+                  courseTitle={certificate.courseTitle}
+                  completionDate={certificate.completionDate}
+                />
+              </div>
+              
+              <div className="flex items-center justify-center gap-4">
+                <Button
+                  onClick={() => window.print()}
+                  className="flex items-center gap-2"
+                >
+                  <ApperIcon name="Printer" size={16} />
+                  Print Certificate
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowCertificate(false)}
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
