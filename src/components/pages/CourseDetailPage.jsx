@@ -367,19 +367,20 @@ const CourseDetailPage = () => {
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Certificate</span>
+<span className="text-gray-600">Certificate</span>
                     <span className="font-medium">
                       {course.certificate ? "Yes" : "No"}
                     </span>
                   </div>
                 </div>
-</div>
               </div>
             </motion.div>
+</motion.div>
           </div>
         </div>
       </div>
     </div>
+  );
 };
 
 export default CourseDetailPage;
