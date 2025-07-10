@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
-import { Button } from "@/atoms/Button";
-import { Card } from "@/atoms/Card";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
 
 const CareersPage = () => {
   const openPositions = [
@@ -61,7 +61,7 @@ const CareersPage = () => {
       title: "Team Events",
       description: "Regular team building activities, annual retreats, and social events.",
     },
-  ];
+];
 
   return (
     <div className="min-h-screen bg-gray-50">
