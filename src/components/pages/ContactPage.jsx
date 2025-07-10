@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { toast } from "react-toastify";
-import ApperIcon from "@/components/ApperIcon";
-import { Button } from "@/atoms/Button";
-import { Card } from "@/atoms/Card";
-import { Input } from "@/atoms/Input";
-import { Textarea } from "@/atoms/Textarea";
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
+import ApperIcon from '@/components/ApperIcon'
+import { Button } from "@/components/atoms/Button";
+import { Card } from '@/components/atoms/Card'
+import { Input } from '@/components/atoms/Input'
+import { Textarea } from '@/components/atoms/Textarea'
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
