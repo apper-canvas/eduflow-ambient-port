@@ -1,9 +1,9 @@
 import React from "react";
 import { cn } from "@/utils/cn";
-import Label from "@/components/atoms/Label";
-import Input from "@/components/atoms/Input";
-import Textarea from "@/components/atoms/Textarea";
 import Select from "@/components/atoms/Select";
+import Label from "@/components/atoms/Label";
+import Textarea from "@/components/atoms/Textarea";
+import Input from "@/components/atoms/Input";
 
 const FormField = ({ 
   label, 
@@ -25,7 +25,7 @@ const FormField = ({
           <Select id={id} error={!!error} {...props}>
             {children}
           </Select>
-        );
+);
       default:
         return <Input id={id} type={type} error={!!error} {...props} />;
     }

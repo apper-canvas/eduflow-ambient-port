@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { cn } from "@/utils/cn";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import Avatar from "@/components/atoms/Avatar";
-import ProgressBar from "@/components/atoms/ProgressBar";
-import LessonItem from "@/components/molecules/LessonItem";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
 import ApperIcon from "@/components/ApperIcon";
-import { coursesService } from "@/services/api/coursesService";
+import Badge from "@/components/atoms/Badge";
+import ProgressBar from "@/components/atoms/ProgressBar";
+import Avatar from "@/components/atoms/Avatar";
+import Button from "@/components/atoms/Button";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import LessonItem from "@/components/molecules/LessonItem";
 import { lessonsService } from "@/services/api/lessonsService";
 import { enrollmentsService } from "@/services/api/enrollmentsService";
+import { coursesService } from "@/services/api/coursesService";
 
 const CourseDetailPage = () => {
   const { id } = useParams();
@@ -373,13 +373,13 @@ const CourseDetailPage = () => {
                     </span>
                   </div>
                 </div>
+</div>
               </div>
             </motion.div>
           </div>
         </div>
       </div>
     </div>
-  );
 };
 
 export default CourseDetailPage;

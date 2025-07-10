@@ -1,13 +1,14 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { cn } from "@/utils/cn";
 
 const Input = React.forwardRef(({ 
   className, 
   type = "text", 
   error = false,
+  isPayment = false,
   ...props 
 }, ref) => {
-  return (
+return (
     <input
       type={type}
       ref={ref}
@@ -18,6 +19,7 @@ const Input = React.forwardRef(({
         "disabled:cursor-not-allowed disabled:opacity-50",
         "transition-colors duration-200",
         error && "border-error focus:ring-error",
+        isPayment && "border-green-300 focus:ring-green-500 focus:border-green-500",
         className
       )}
       {...props}

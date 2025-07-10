@@ -9,8 +9,10 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "dependencies": {
+"dependencies": {
     "@reduxjs/toolkit": "2.7.0",
+    "@stripe/stripe-js": "^2.4.0",
+    "@stripe/react-stripe-js": "^2.4.0",
     "apexcharts": "4.7.0",
     "date-fns": "4.1.0",
     "framer-motion": "10.16.4",

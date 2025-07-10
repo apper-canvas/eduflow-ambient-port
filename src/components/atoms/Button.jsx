@@ -11,7 +11,7 @@ const Button = React.forwardRef(({
   disabled = false,
   ...props 
 }, ref) => {
-  const variants = {
+const variants = {
     primary: "bg-primary-600 text-white hover:bg-primary-700 hover:shadow-lg",
     secondary: "bg-secondary-600 text-white hover:bg-secondary-700 hover:shadow-lg",
     accent: "bg-accent-500 text-white hover:bg-accent-600 hover:shadow-lg",
@@ -20,6 +20,7 @@ const Button = React.forwardRef(({
     success: "bg-success text-white hover:bg-green-600",
     warning: "bg-warning text-white hover:bg-yellow-600",
     error: "bg-error text-white hover:bg-red-600",
+    payment: "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 hover:shadow-lg",
   };
 
   const sizes = {
